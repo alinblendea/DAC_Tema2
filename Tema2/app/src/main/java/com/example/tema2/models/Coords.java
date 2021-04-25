@@ -2,30 +2,30 @@ package com.example.tema2.models;
 
 public class Coords {
 
-    private double lat;
-    private double lng;
+    private String lat;
+    private String lng;
 
     public Coords() {
     }
 
-    public Coords(double lat, double lng) {
+    public Coords(String lat, String lng) {
         this.lat = lat;
         this.lng = lng;
     }
 
-    public double getLat() {
+    public String getLat() {
         return lat;
     }
 
-    public void setLat(double lat) {
+    public void setLat(String lat) {
         this.lat = lat;
     }
 
-    public double getLng() {
+    public String getLng() {
         return lng;
     }
 
-    public void setLng(double lng) {
+    public void setLng(String lng) {
         this.lng = lng;
     }
 }

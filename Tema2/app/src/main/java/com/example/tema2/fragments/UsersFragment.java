@@ -9,8 +9,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.tema2.R;
 import com.example.tema2.activities.MainActivity;
@@ -18,8 +24,13 @@ import com.example.tema2.adapters.MyAdapter;
 import com.example.tema2.interfaces.OnUserItemClick;
 import com.example.tema2.models.Address;
 import com.example.tema2.models.Company;
+import com.example.tema2.models.Coords;
 import com.example.tema2.models.User;
 import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -32,6 +43,7 @@ public class UsersFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private RequestQueue requestQueue;
+    ArrayList<User> users = new ArrayList<>();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -84,17 +96,20 @@ public class UsersFragment extends Fragment {
 
         requestQueue = Volley.newRequestQueue(view.getContext());
 
-        ArrayList<User> users = new ArrayList<>();
-
         User user1 = new User(1, "Aleen", "alinbld", "alinblendea@yahoo.com", new Address(), "0787543049", "asds.com", new Company());
-        User user2 = new User(2, "Aleen2", "alinbld2", "alinblendea@yahoo.com", new Address(), "0787543049", "asds.com", new Company());
+        /*User user2 = new User(2, "Aleen2", "alinbld2", "alinblendea@yahoo.com", new Address(), "0787543049", "asds.com", new Company());
         User user3 = new User(3, "Aleen3", "alinbld3", "alinblendea@yahoo.com", new Address(), "0787543049", "asds.com", new Company());
         User user4 = new User(4, "Aleen4", "alinbld4", "alinblendea@yahoo.com", new Address(), "0787543049", "asds.com", new Company());
 
         users.add(user2);
         users.add(user3);
-        users.add(user4);
+        users.add(user4);*/
         users.add(user1);
+
+        ProgressBar progressBar = view.findViewById(R.id.pBar);
+        progressBar.setVisibility(View.VISIBLE);
+        jsonParse();
+        progressBar.setVisibility(View.GONE);
 
         recyclerView.setAdapter(new MyAdapter(users, new OnUserItemClick() {
             @Override
@@ -105,14 +120,68 @@ public class UsersFragment extends Fragment {
 
         return view;
     }
+
+    private void jsonParse() {
+        String url = "https://jsonplaceholder.typicode.com/users/";
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                try {
+                    JSONArray jsonArray = response;
+                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                        JSONObject user = jsonArray.getJSONObject(i);
+                        users.add(new User(
+                              user.getInt("id"),
+                              user.getString("name"),
+                              user.getString("username"),
+                              user.getString("email"),
+                              new Address(),
+                              "074mov",
+                              "ads.com",
+                              new Company()
+                        ));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        requestQueue.add(request);
+    }
 }
 
 
 
 
+/*JSONObject user = (JSONObject) jsonArray.getJSONObject(i);
+                        int id = user.getInt("id");
+                        String name = user.getString("name");
+                        String username = user.getString("username");
+                        String email = user.getString("email");
+                        JSONObject address = user.getJSONObject("address");
+                        String street = address.getString("street");
+                        String suite = address.getString("suite");
+                        String city = address.getString("city");
+                        String zipcode = address.getString("zipcode");
+                        JSONObject geo = address.getJSONObject("geo");
+                        String lat = geo.getString("lat");
+                        String lng = geo.getString("lng");
+                        String phone = user.getString("phone");
+                        String website = user.getString("website");
+                        JSONObject company = user.getJSONObject("company");
+                        String cName = company.getString("name");
+                        String catchPhrase = company.getString("catchPhrase");
+                        String bs = company.getString("bs");
 
-
-
+                        Coords coords = new Coords(lat, lng);
+                        Address ad = new Address(street, suite, city, zipcode, coords);
+                        Company company1 = new Company(cName, catchPhrase, bs);*/
 
 
 
