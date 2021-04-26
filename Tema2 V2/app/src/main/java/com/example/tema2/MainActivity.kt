@@ -33,11 +33,11 @@ class MainActivity : AppCompatActivity(), FragmentCommunication{
         val fragmentManager = supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
         val tag = AlbumsFragment::class.java.name
-        //val replaceTransaction = transaction.replace(
-        //    R.id.frame_layout, AlbumsFragment.newInstance("","", user), tag
-        //)
-        //replaceTransaction.addToBackStack(tag)
-        //replaceTransaction.commit()
+        val replaceTransaction = transaction.replace(
+            R.id.frame_layout, AlbumsFragment.newInstance("","", user), tag
+        )
+        replaceTransaction.addToBackStack(tag)
+        replaceTransaction.commit()
     }
 
     override fun addPhotosFragment(album: Album) {
