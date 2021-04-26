@@ -6,8 +6,8 @@ public class Post extends Model{
     private String title;
     private String content;
 
-    public Post(ModelType modelType, int id, int userId, String title, String content) {
-        super(modelType);
+    public Post(int id, int userId, String title, String content) {
+        super(ModelType.POST);
         this.id = id;
         this.userId = userId;
         this.title = title;

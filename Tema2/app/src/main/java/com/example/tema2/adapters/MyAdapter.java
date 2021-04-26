@@ -3,9 +3,11 @@ package com.example.tema2.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tema2.R;
@@ -37,6 +39,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.UserViewHolder> {
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         User user = users.get(position);
         holder.bind(user);
+        boolean showPosts = users.get(position).isShowPosts();
+        holder.postsConstraintLayout.setVisibility(showPosts ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -47,24 +51,46 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.UserViewHolder> {
     class UserViewHolder extends RecyclerView.ViewHolder {
         private TextView name;
         private TextView username;
+        private TextView posts;
+        private ImageView arrow;
+        private ConstraintLayout postsConstraintLayout;
         private View view;
 
         UserViewHolder(View view) {
             super(view);
+            this.view = view;
             name = view.findViewById(R.id.name);
             username = view.findViewById(R.id.username);
-            this.view = view;
+            posts = view.findViewById(R.id.posts_textView);
+            postsConstraintLayout = view.findViewById(R.id.posts);
+            arrow = view.findViewById(R.id.arrow);
         }
 
         void bind(User user) {
             name.setText(user.getName());
             username.setText(user.getUsername());
+
+            String userPosts = "User's posts:\n";
+            for(int index=0; index< user.getPosts().size();index++) {
+                userPosts+=(index+1)+") "+user.getPosts().get(index).getTitle()+"\n";
+            }
+            posts.setText(userPosts);
+
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(onUserItemClick != null) {
-                        onUserItemClick.onClick(user);
+                        onUserItemClick.onUserClick(user);
                     }
+                }
+            });
+
+            arrow.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    user.setShowPosts(!user.isShowPosts());
+                    onUserItemClick.onArrowClick(user);
+                    notifyItemChanged(getAdapterPosition());
                 }
             });
         }
