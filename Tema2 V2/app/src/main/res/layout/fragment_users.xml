@@ -17,4 +17,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         />
 
+    <ProgressBar
+        android:id="@+id/pBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="566dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:outlineSpotShadowColor="@color/purple_200"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

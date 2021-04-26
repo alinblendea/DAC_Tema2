@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -64,11 +65,16 @@ public class PhotosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_photos, container, false);
+
+        ProgressBar simpleProgressBar = (ProgressBar) view.findViewById(R.id.pBar);
+        simpleProgressBar.setVisibility(View.VISIBLE);
+
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.photos);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(photoAdapter);
 
+        simpleProgressBar.setVisibility(View.GONE);
         return view;
     }
 

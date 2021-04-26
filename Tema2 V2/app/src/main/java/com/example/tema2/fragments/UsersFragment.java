@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -92,11 +93,16 @@ public class UsersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_users, container, false);
+
+        ProgressBar simpleProgressBar = (ProgressBar) view.findViewById(R.id.pBar);
+        simpleProgressBar.setVisibility(View.VISIBLE);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         RecyclerView usersRecyclerView = (RecyclerView) view.findViewById(R.id.usersList);
         usersRecyclerView.setLayoutManager(linearLayoutManager);
         usersRecyclerView.setAdapter(userAdapter);
 
+        simpleProgressBar.setVisibility(View.GONE);
         return view;
     }
 
