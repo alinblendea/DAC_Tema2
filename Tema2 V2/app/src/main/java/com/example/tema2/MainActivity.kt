@@ -44,10 +44,10 @@ class MainActivity : AppCompatActivity(), FragmentCommunication{
         val fragmentManager = supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
         val tag = PhotosFragment::class.java.name
-        //val replaceTransaction = transaction.replace(
-        //    R.id.frame_layout, PhotosFragment.newInstance("","", album), tag
-        //)
-        //replaceTransaction.addToBackStack(tag)
-        //replaceTransaction.commit()
+        val replaceTransaction = transaction.replace(
+            R.id.frame_layout, PhotosFragment.newInstance("","", album), tag
+        )
+        replaceTransaction.addToBackStack(tag)
+        replaceTransaction.commit()
     }
 }
