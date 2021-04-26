@@ -9,29 +9,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.tema2.R;
 import com.example.tema2.VolleySingleton;
-import com.example.tema2.activities.MainActivity;
 import com.example.tema2.adapters.MyAdapter;
+import com.example.tema2.interfaces.FragmentCommunication;
 import com.example.tema2.interfaces.OnUserItemClick;
-import com.example.tema2.models.Address;
 import com.example.tema2.models.Album;
-import com.example.tema2.models.Company;
-import com.example.tema2.models.Coords;
 import com.example.tema2.models.Post;
 import com.example.tema2.models.User;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,10 +42,13 @@ public class UsersFragment extends Fragment {
     private RecyclerView recyclerView;
     private RequestQueue requestQueue;
     ArrayList<User> users = new ArrayList<>();
+    FragmentCommunication activityFragmentCommunication;
     MyAdapter userAdapter = new MyAdapter(users, new OnUserItemClick() {
         @Override
         public void onUserClick(User user) {
-            ((MainActivity) getActivity()).setViewPager(1);
+            if (activityFragmentCommunication != null) {
+                activityFragmentCommunication.addAlbumsFragment(user);
+            }
         }
 
         @Override
